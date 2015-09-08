@@ -6,6 +6,7 @@ ENV MINION_FRONTEND /opt/minion/minion-frontend
 EXPOSE 8080
 
 # Install minion-frontend
+RUN apt-get --assume-yes install git
 RUN git clone https://github.com/mozilla/minion-frontend.git ${MINION_FRONTEND}
 
 # Move files into place

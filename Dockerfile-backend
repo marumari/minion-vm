@@ -6,6 +6,7 @@ ENV MINION_DOCKERIZED true
 EXPOSE 8383
 
 # Install minion-backend
+RUN apt-get --assume-yes install git
 RUN git clone https://github.com/mozilla/minion-backend.git ${MINION_BACKEND}
 
 # Move files into place
