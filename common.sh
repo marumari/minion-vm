@@ -33,7 +33,9 @@ easy_install --upgrade setuptools
 useradd -m minion
 
 # Create all the running directories for minion, locking things down as needed
-install -m 700 -o minion -g minion -d /run/minion -d /var/lib/minion -d /var/log/minion -d ~minion/.python-eggs
+install -m 700 -o minion -g minion \
+    -d /run/minion -d /var/lib/minion -d /var/log/minion -d ~minion/.python-eggs
+install -m 710 -o root -g minion -d /etc/minion
 
 # Setup the minion environment for the minion user
 echo -e "\n# Source minion-backend virtualenv\nsource ${MINION_BASE_DIRECTORY}/minion-env/bin/activate" >> ~minion/.profile

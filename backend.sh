@@ -30,10 +30,15 @@ source minion-env/bin/activate
 cd minion-backend
 python setup.py develop
 
-# Configure minion-backend (listening on 0.0.0.0:8383, and with no blacklist)
-mkdir -p /etc/minion
-mv /tmp/backend.json /etc/minion
+# Configure minion-backend (no blacklist)
+cp ${MINION_BASE_DIRECTORY}/minion-backend/etc/backend.json /etc/minion
 mv /tmp/scan.json /etc/minion
+chown root:minion /etc/minion/*.json
+chmod 640 /etc/minion/*.json
+
+# Add the API key
+sed -i "s/SECRETKEYHERE/`cat /tmp/apikey`/" /etc/minion/backend.json
+rm -f /tmp/apikey
 
 # Install minion-nmap-plugin; comment out `git clone` if working on minion-nmap-plugin locally
 # via Vagrant synced folder

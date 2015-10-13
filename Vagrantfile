@@ -35,13 +35,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # This makes subsequent builds much faster
   config.vm.synced_folder APT_CACHE_SRC, APT_CACHE_DST, owner: "root", group: "root"
 
+  # Scripts to set an identical hosts file on each system
   config.vm.provision "shell" do |s|
     s.path = "vagrant-hosts.sh"
   end
 
+  # Install common packages and setup common directories
   config.vm.provision "shell" do |s|
     s.path = "common.sh"
   end
+
+  # Install the same API key in both
+  config.vm.provision "file", source: "apikey", destination: "/tmp/apikey"
 
   # Build minion-backend
   config.vm.define "minion-backend" do |backend|
@@ -71,8 +76,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     frontend.vm.hostname = "minion-frontend"
     frontend.vm.network "private_network", ip: FRONTEND_IP
     frontend.vm.synced_folder FRONTEND_SRC, FRONTEND_DST, create: true
-
-    frontend.vm.provision "file", source: "frontend.json", destination: "/tmp/frontend.json"
 
     frontend.vm.provision "shell" do |s|
       s.path = "frontend.sh"

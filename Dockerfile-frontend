@@ -6,10 +6,9 @@ ENV MINION_FRONTEND /opt/minion/minion-frontend
 EXPOSE 8080
 
 # Move files into place
-COPY frontend.json /tmp/frontend.json
-
 COPY frontend.sh /tmp/frontend.sh
 COPY common.sh /tmp/common.sh
+COPY apikey /tmp/apikey
 
 RUN chmod 755 /tmp/frontend.sh /tmp/common.sh
 
