@@ -6,8 +6,8 @@ ENV MINION_DOCKERIZED true
 EXPOSE 8383
 
 # Move files into place
-COPY backend.json /tmp/backend.json
 COPY scan.json /tmp/scan.json
+COPY apikey /tmp/apikey
 
 COPY backend.sh /tmp/backend.sh
 COPY common.sh /tmp/common.sh

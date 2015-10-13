@@ -16,8 +16,13 @@ cd ${MINION_BASE_DIRECTORY}/minion-frontend
 python setup.py develop
 
 # Configure minion-frontend
-mkdir -p /etc/minion
-mv /tmp/frontend.json /etc/minion
+cp ${MINION_BASE_DIRECTORY}/minion-frontend/etc/frontend.json /etc/minion
+chown root:minion /etc/minion/*.json
+chmod 640 /etc/minion/*.json
+
+# Add the API key
+sed -i "s/SECRETKEYHERE/`cat /tmp/apikey`/" /etc/minion/frontend.json
+rm -f /tmp/apikey
 
 # Add the minion init scripts to the system startup scripts
 cp ${MINION_BASE_DIRECTORY}/minion-frontend/scripts/minion-init /etc/init.d/minion

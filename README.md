@@ -15,6 +15,11 @@ MINION_ADMINISTRATOR_EMAIL="youremail@yourorganization.org"
 MINION_ADMINISTRATOR_NAME="Your Name"
 ```
 
+You must also generate an API key:
+```
+$ python apikey.py
+```
+
 Configuring Vagrant
 -------------------
 * Edit the BACKEND\_SRC, FRONTEND\_SRC, and APT\_CACHE\_SRC variables in `Vagrantfile` to point to their locations on your local system
