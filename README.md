@@ -8,12 +8,27 @@ Vagrantfile and Dockerfiles to make developing against [Mozilla Minion](https://
 
 Configuring minion-vm
 ---------------------
-Prior to installation, it is necessary to edit `backend.sh` to change the default administrator's email address and name:
+Prior to installation, it is necessary to set the default administrator's email address and name:
 
+**Vagrantfile**
 ```
-MINION_ADMINISTRATOR_EMAIL="youremail@yourorganization.org"
-MINION_ADMINISTRATOR_NAME="Your Name"
+## Set these to ensure administrative rights when the backend is provisioned.
+MINION_ADMINISTRATOR_NAME = "April King"
+MINION_ADMINISTRATOR_EMAIL = "april@mozilla.com"
 ```
+
+**docker-compose.yml**
+```
+services:
+  backend:
+    ...
+    environment:
+      - MINION_ADMINISTRATOR_EMAIL="youremail@yourorganization.org"
+      - MINION_ADMINISTRATOR_NAME="Your Name Here"
+```
+
+**If you're not using Docker Compose, see below for building the container with these arguments**
+
 
 Configuring Vagrant
 -------------------
@@ -32,17 +47,36 @@ You can also ssh into your new Minion instances with `vagrant ssh minion-fronten
 
 Configuring Docker
 ------------------
+You'll need to specify [build args](https://docs.docker.com/engine/reference/commandline/build/) when building the containers so that MINION_ADMINISTRATOR_NAME and MINION_ADMINISTRATOR_EMAIL are
+properly set.  **If you're using docker-compose, you can skip building the containers this way**
+
+*[For example](https://docs.docker.com/engine/reference/commandline/build/#/set-build-time-variables---build-arg)*
 ```
-$ docker build -t 'mozilla/minion-backend'  -f Dockerfile-backend  .
+$ docker build \
+  -t 'mozilla/minion-backend' \
+  -f Dockerfile-backend \
+  --build-arg MINION_ADMINISTRATOR_NAME={your name here} \
+  --build-arg MINION_ADMINISTRATOR_EMAIL={your email here} \
+  .
 $ docker build -t 'mozilla/minion-frontend' -f Dockerfile-frontend .
 ```
 
+
 Running Docker
 --------------
+Running the containers individually
+
 ```
 $ docker run -d --name 'minion-backend' 'mozilla/minion-backend'
 $ docker run -d -p 8080:8080 --name 'minion-frontend' \
     --link minion-backend:minion-backend 'mozilla/minion-frontend'
+```
+
+**OR**
+
+Running the containers with Compose
+```
+$ docker-compose up -d
 ```
 
 The Minion frontend should now be accessible over HTTP at the IP address of the system running Docker, on port 8080.

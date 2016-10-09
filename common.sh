@@ -4,8 +4,10 @@
 MINION_BASE_DIRECTORY=/opt/minion
 
 # Install common packages
-apt-get update && apt-get -y install build-essential \
+apt update && apt upgrade
+apt -y install build-essential \
     git \
+    apt-utils \
     libssl-dev \
     python \
     python-dev \
