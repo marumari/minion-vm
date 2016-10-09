@@ -1,5 +1,5 @@
-# Start with Ubuntu 14.04 (LTS), and build a Minion install up from there
-FROM ubuntu:14.04
+# Start with Ubuntu 16.04 (LTS), and build a Minion install up from there
+FROM ubuntu:16.04
 MAINTAINER April King <april@mozilla.com>
 ENV MINION_DOCKERIZED true
 ENV MINION_FRONTEND /opt/minion/minion-frontend

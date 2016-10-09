@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-MINION_ADMINISTRATOR_EMAIL="april@mozilla.com"
-MINION_ADMINISTRATOR_NAME="April King"
+: ${MINION_ADMINISTRATOR_EMAIL?"Need to add MINION_ADMINISTRATOR_EMAIL to environment.  Check docker-compose.yml build args or pass on CLI."}
+: ${MINION_ADMINISTRATOR_NAME?"Need to add MINION_ADMINISTRATOR_NAME to environment.  Check docker-compose.yml build args or pass on CLI."}
 
 # The base directory for large pieces of the install
 MINION_BASE_DIRECTORY=/opt/minion
 
-# Install backend only packages
-apt-get -y install curl \
+## Gets around prompt during build of backend container asking for Postfix configuration
+echo "postfix postfix/mailname string your.hostname.com" | debconf-set-selections
+echo "postfix postfix/main_mailer_type string 'No configuration'" | debconf-set-selections
+
+## Install backend only packages
+apt -y install curl \
   libcurl4-openssl-dev \
   libffi-dev \
   mongodb-server \
@@ -15,9 +19,7 @@ apt-get -y install curl \
   postfix \
   rabbitmq-server \
   stunnel
-
-# For some reason, it has trouble adding the rabbitmq groups
-apt-get -y install rabbitmq-server
+apt clean
 
 # First, source the virtualenv
 cd ${MINION_BASE_DIRECTORY}

@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+      args:
+        - MINION_ADMINISTRATOR_EMAIL=april@mozilla.com
+        - MINION_ADMINISTRATOR_NAME=April King
+    image: mozilla/minion-backend
+    container_name: minion-backend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    depends_on:
+      - backend
+    image: mozilla/minion-frontend
+    container_name: minion-frontend
+    ports:
+      - "8080:8080"
+    links:
+      - backend

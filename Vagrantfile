@@ -1,6 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+## Set these to ensure administrative rights when the backend is provisioned.
+MINION_ADMINISTRATOR_NAME = "April King"
+MINION_ADMINISTRATOR_EMAIL = "april@mozilla.com"
+
 # Configure as needed to share source between Vagrant and your machine
 # If you update the IPs, make sure to change vagrant-hosts.sh as well
 BACKEND_SRC = "/Users/april/Source/minion/minion-backend/"
@@ -59,6 +63,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     backend.vm.provision "shell" do |s|
       s.path = "backend.sh"
+      s.env = {
+        "MINION_ADMINISTRATOR_NAME" => MINION_ADMINISTRATOR_NAME
+        "MINION_ADMINISTRATOR_EMAIL" => MINION_ADMINISTRATOR_EMAIL
+      }
     end
   end
 

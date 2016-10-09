@@ -3,8 +3,10 @@
 MINION_BASE_DIRECTORY=/opt/minion
 
 # Install frontend packages on Vagrant systems
-apt-get install -y libldap2-dev \
+apt install -y libldap2-dev \
   libsasl2-dev
+apt clean
+
 
 # First, source the virtualenv
 cd ${MINION_BASE_DIRECTORY}
