@@ -33,19 +33,16 @@ You can also ssh into your new Minion instances with `vagrant ssh minion-fronten
 Configuring Docker
 ------------------
 ```
-$ docker build -t 'mozilla/minion-backend'  -f Dockerfile-backend  .
-$ docker build -t 'mozilla/minion-frontend' -f Dockerfile-frontend .
+$ docker-compose create
 ```
 
 Running Docker
 --------------
 ```
-$ docker run -d --name 'minion-backend' 'mozilla/minion-backend'
-$ docker run -d -p 8080:8080 --name 'minion-frontend' \
-    --link minion-backend:minion-backend 'mozilla/minion-frontend'
+$ docker-compose up -d
 ```
 
 The Minion frontend should now be accessible over HTTP at the IP address of the system running Docker, on port 8080.
 
-You can also get a shell on your new Minion instances with `docker exec -i -t minion-frontend /bin/bash` and
-`docker exec -i -t minion-backend /bin/bash`.
+You can also get a shell on your new Minion instances with `docker-compose exec minion-frontend /bin/bash` and
+`docker-compose exec minion-backend /bin/bash`.

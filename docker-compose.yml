@@ -1,0 +1,30 @@
+#
+# Mozilla Minion Backend + Frontend
+#
+# Written by:
+#   Baptiste MOINE <contact@bmoine.fr>
+#
+
+version: '2.0'
+networks: {}
+services:
+    minion-backend:
+        build:
+            context: .
+            dockerfile: Dockerfile-backend
+        image: mozilla/minion-backend
+        container_name: minion-backend
+        restart: always
+    minion-frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile-frontend
+        image: mozilla/minion-frontend
+        container_name: minion-frontend
+        links:
+            - minion-backend
+        ports:
+            - 8080:8080/tcp
+        restart: always
+volumes: {}
+
