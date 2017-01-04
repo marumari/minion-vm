@@ -6,7 +6,9 @@
 #
 
 version: '2.0'
-networks: {}
+networks:
+    minion_net:
+        driver: bridge
 services:
     minion-backend:
         build:
@@ -14,6 +16,8 @@ services:
             dockerfile: Dockerfile-backend
         image: mozilla/minion-backend
         container_name: minion-backend
+        networks:
+            - minion_net
         restart: always
     minion-frontend:
         build:
@@ -23,6 +27,8 @@ services:
         container_name: minion-frontend
         links:
             - minion-backend
+        networks:
+            - minion_net
         ports:
             - 8080:8080/tcp
         restart: always
